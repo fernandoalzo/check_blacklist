@@ -1,13 +1,11 @@
 from scapy.all import rdpcap
 from IPy import IP
-
 import requests
 import json
 
 class functions:
-    pcap_file = "./captura.pcapng"
-
-    #lista_paquetes = rdpcap(pcap_file)
+    url = 'https://api.abuseipdb.com/api/v2/check'
+    api_key = 'a415ba70cfbb747a1c517552d41462540e6a0a35ac4ea462b6b2aa4588d0d4e41a9714f9e876f1db'
 
     def lista_paquetes(archivo_pcap):
         lista_paquetes = rdpcap(archivo_pcap)
@@ -47,20 +45,15 @@ class functions:
         lista_ips_destino = list(set(lista_ips_destino))
         return lista_ips_destino
 
-    #=========================================================================================================================
-
-    numero_paquetes = numero_paquetes(pcap_file)
-    lista_paquetes = lista_paquetes(pcap_file)
-
-
-    def check_IP_abuseipdb(direccion_ip):
-        url = 'https://api.abuseipdb.com/api/v2/check'
+    def check_IP_abuseipdb(self, direccion_ip):
+        url = self.url
+        API_key = self.api_key
         query = {
             'ipAddress': direccion_ip
         }
         headers = {
             'Accept': 'application/json',
-            'Key': 'a415ba70cfbb747a1c517552d41462540e6a0a35ac4ea462b6b2aa4588d0d4e41a9714f9e876f1db'
+            'Key': API_key
         }
         response = requests.request(method='GET', url=url, headers=headers, params=query)    
         response = json.loads(response.text)
