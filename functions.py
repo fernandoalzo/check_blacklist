@@ -5,6 +5,9 @@ import json
 
 class functions:
 
+    url = 'https://api.abuseipdb.com/api/v2/check'
+    API_key = ''
+
     def lista_paquetes(archivo_pcap):
         try:
             lista_paquetes = rdpcap(archivo_pcap)
@@ -50,8 +53,8 @@ class functions:
         return lista_ips_destino
 
     def check_IP_abuseipdb(direccion_ip):
-        url = 'https://api.abuseipdb.com/api/v2/check'
-        API_key = 'a415ba70cfbb747a1c517552d41462540e6a0a35ac4ea462b6b2aa4588d0d4e41a9714f9e876f1db'
+        url = url
+        API_key = API_key
         query = {
             'ipAddress': direccion_ip
         }
