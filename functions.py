@@ -5,41 +5,30 @@ import json
 
 class functions:
 
-    url = 'https://api.abuseipdb.com/api/v2/check'
-    API_key = ''
+    def __init__(self, url, API_key):
+        self.url = url
+        self.API_key = API_key
 
-    def lista_paquetes(archivo_pcap):
+    def lista_paquetes(self, archivo_pcap):
         try:
             lista_paquetes = rdpcap(archivo_pcap)
             return lista_paquetes
         except:
             print("Error leyendo el archivo con la captura de trafico")
 
-    def check_ip_publica_o_privada(direccion_ip):
+    def check_ip_publica_o_privada(self, direccion_ip):
         try: 
             ip = IP(direccion_ip)
             tipo = ip.iptype()
             return tipo
         except:
-            print("hubo un error en el formato de")
+            print("hubo un error en el formato de direcciones IP.")
 
-    def numero_paquetes(lista_paquetes):
+    def numero_paquetes(self, lista_paquetes):
             numero_paquetes = len(lista_paquetes)
             return numero_paquetes
-        
-    def lista_ips_origen(lista_paquetes):
-        lista_ips_origenes = []    
-        for paquete in lista_paquetes:
-            if 'IP' in paquete:
-                try:
-                    ip_origen = paquete['IP'].src
-                    lista_ips_origenes.append(ip_origen)
-                except:
-                    print("Error extrayendo las IPs origen de la lista de paquetes!!!")
-        lista_ips_origenes = list(set(lista_ips_origenes))
-        return lista_ips_origenes
 
-    def lista_ips_destino(lista_paquetes):
+    def lista_ips_destino(self, lista_paquetes):
         lista_ips_destino = []
         for paquete in lista_paquetes:
             if 'IP' in paquete:
@@ -52,11 +41,12 @@ class functions:
         lista_ips_destino = list(set(lista_ips_destino))
         return lista_ips_destino
 
-    def check_IP_abuseipdb(direccion_ip):
-        url = url
-        API_key = API_key
+    def check_IP_abuseipdb(self, direccion_IP):
+        url = self.url
+        API_key = self.API_key
+
         query = {
-            'ipAddress': direccion_ip
+            'ipAddress': direccion_IP
         }
         headers = {
             'Accept': 'application/json',
@@ -75,7 +65,7 @@ class functions:
         lista_de_datos.append(total_reportes)        
         return lista_de_datos
 
-    def help():
+    def help(self):
         print("""
      *********************************************************************************************************
      *                                                                                                       *
@@ -95,7 +85,7 @@ class functions:
      *********************************************************************************************************
         """)
 
-    def main_banner():
+    def main_banner(self):
         print("""
         ██╗ ██╗ ██╗   █████╗ ███╗   ██╗ █████╗ ██╗     ██╗███████╗██╗███████╗         
         ╚██╗╚██╗╚██╗ ██╔══██╗████╗  ██║██╔══██╗██║     ██║██╔════╝██║██╔════╝         

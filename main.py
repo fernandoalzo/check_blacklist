@@ -4,15 +4,14 @@ from functions import functions
 from prettytable import PrettyTable
 from tqdm import tqdm
 
-#print("numero de argumentos: " + str(len(sys.argv)))
-#print("argumentos: " + str(sys.argv))
-
-
 if __name__ == "__main__":
     os.system("cls")
     numero_argumentos = len(sys.argv)    
     if numero_argumentos == 2:
-        functions.main_banner()
+        url = 'https://api.abuseipdb.com/api/v2/check'
+        API_key = ''
+        functions = functions(url, API_key)
+        functions.main_banner()    
         captura_trafico = sys.argv[1]
         lista_paquetes = functions.lista_paquetes(captura_trafico)
         numero_paquetes = functions.numero_paquetes(lista_paquetes)
