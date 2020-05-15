@@ -9,12 +9,13 @@ class functions:
         self.url = url
         self.API_key = API_key
 
-    def lista_paquetes(self, archivo_pcap):
-        try:
-            lista_paquetes = rdpcap(archivo_pcap)
-            return lista_paquetes
-        except:
-            print("Error leyendo el archivo con la captura de trafico")
+    def lista_paquetes(archivo_pcap):
+        #try:
+        lista_paquetes = rdpcap(archivo_pcap)
+        return list(lista_paquetes)
+        #except Exception as e:
+            #print("Error leyendo el archivo con la captura de trafico")
+            #print(e)
 
     def check_ip_publica_o_privada(self, direccion_ip):
         try: 
@@ -94,3 +95,68 @@ class functions:
         ██╔╝██╔╝██╔╝ ██║  ██║██║ ╚████║██║  ██║███████╗██║███████║██║███████║██╗██╗██╗
         ╚═╝ ╚═╝ ╚═╝  ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝╚═╝╚══════╝╚═╝╚═╝╚═╝
         """)
+
+'''
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+████████╗ █████╗ ██╗     ██╗     ███████╗██████╗          
+╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗         
+   ██║   ███████║██║     ██║     █████╗  ██████╔╝         
+   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗         
+   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║██╗██╗██╗
+   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝╚═╝
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+'''
+
+
+url = 'https://api.abuseipdb.com/api/v2/check'
+API_key = 'a415ba70cfbb747a1c517552d41462540e6a0a35ac4ea462b6b2aa4588d0d4e41a9714f9e876f1db'
+
+def lista_paquetes2(archivo_pcap):
+        try:
+            lista_paquetes = rdpcap(archivo_pcap)
+            return list(lista_paquetes)
+        except Exception as e:
+            print("Error leyendo el archivo con la captura de trafico")
+            print(e)
+
+def lista_ips_destino2(archivo_pcap):
+        lista_paquetes = rdpcap(archivo_pcap)        
+        lista_ips_destino = []
+        for paquete in lista_paquetes:
+            if 'IP' in paquete:
+                try:
+                    ip_destino = paquete['IP'].dst
+                    lista_ips_destino.append(ip_destino)
+                except:
+                    print("Error extrayendo las IPs destinos de la lista de paquetes!!!")
+                    break
+        lista_ips_destino = list(set(lista_ips_destino))
+        return lista_ips_destino
+
+def pcap_reader(archivo_pcap):
+    paquetes = rdpcap(archivo_pcap)
+    iterador = iter(paquetes)
+    #iterador = iter(lista)
+    while True:
+        try:
+            print(next(iterador))
+        except StopIteration:
+            break
+
+
+def show_interfaces(resolve_mac=True):
+    """Print list of available network interfaces"""
+    return IFACES.show(resolve_mac)
+
+
+pcap_file = 'captura.pcapng'
+
+
+
+#lista = pcap_reader(pcap_file)
+
+
+#print(pcap_reader(pcap_file))
+
+
